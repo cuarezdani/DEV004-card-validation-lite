@@ -1,31 +1,64 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <title>Tarjeta de crédito válida</title>
-</head>
-
 <body>
-  <input id="cardnumber"></input>
-  <button onclick="validate()">Validar</button>
-  <div id="result"></div>
-  <script lang="javascript">
-    function validate() {
-      const valid = isValid(document.getElementById("cardnumber").value)
-      if (valid) {
-        // Show success in div#result
+
+  <h2>Tarjeta de credito</h2>
+
+  <form action="" method="POST">
+
+    <input type="text" class="form-control"  id="tarjeta" placeholder="Ingrese Tarjeta" name="tarjeta" required>
+    <input type="button" value="Validar Tarjeta" onclick='Validar();'>
+
+
+  </form>
+
+  <h1 id="demo"></h1>
+
+  <script>
+
+    function Validar() {
+      numero_tarjeta = document.getElementById("tarjeta").value;
+
+      var ConvString = numero_tarjeta.toString(); // convierte el valor de una variable a string.
+      var longitudString = ConvString.length; // longitud del string
+      var cifra = null;
+      var cifra_cad = null;
+      var suma = 0;
+
+      for (var i = 0; i < longitudString; i += 2)  //es un bucle for que se ejecuta mientras la variable "i" sea menor a "longitudString" y en cada iteración se suma 2 a la variable "i"
+      {
+        console.log(i< longitudString);
+
+        cifra = parseInt(ConvString.charAt(i)) * 2; // ConvString.charAt(i) obtiene el caracter en una posición específica en una cadena, en este caso la posición específica es "i" , parseInt() es una función que convierte un valor a un número entero
+        console.log(parseInt(ConvString.charAt(i)) * 2);
+
+        if (cifra > 9) {
+          cifra_cad = cifra.toString();  //toString devuelve el valor, nos devolverá una cadena de texto con el valor numérico del número en cuestión
+          console.log(cifra.toString()); //preguntar
+
+          cifra = parseInt(cifra_cad.charAt(0)) +  // parseInt() es una función que convierte un valor a un número entero
+            parseInt(cifra_cad.charAt(1));         // charAt(0) devuelve el primer carácter (o el carácter en la posición 0)
+        }
+        suma += cifra; // seria lo mismo decir suma = suma + cifra
       }
-      else {
-        // Show error message in div#result
+
+      for (var i = 1; i < longitudString; i += 2) 
+      {
+        suma += parseInt(ConvString.charAt(i)); // parseInt() es una función que convierte un valor a un número entero
       }
+
+      if ((suma % 10) == 0) // si el residuo de la division es igual  a 0 se ejecuta la sentencia 
+      {
+        document.getElementById("demo").innerHTML = "Tarjeta Correcta"
+      } else {
+        document.getElementById("demo").innerHTML = "Tarjeta no Válida"
+      }
+
     }
 
-    function isValid(creditCardNumber){
-      // is creditCardNumber valid?
-      return false
-    }
   </script>
+
 </body>
 
 </html>
